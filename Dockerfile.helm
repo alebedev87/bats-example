@@ -1,0 +1,12 @@
+FROM registry.access.redhat.com/ubi8/ubi-minimal:latest
+
+ENV HELMVERSION="3.3.4"
+
+RUN microdnf install -y curl tar gzip && \
+    microdnf clean all
+
+ADD bin/helm/helm-install.sh /usr/local/bin/helm-install.sh
+RUN ["bash", "-c", "/usr/local/bin/helm-install.sh"]
+
+ADD bin/helm/helm-entrypoint.sh /usr/local/bin/bootstrap.sh
+ENTRYPOINT ["/usr/local/bin/bootstrap.sh"]
