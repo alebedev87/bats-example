@@ -2,7 +2,7 @@ FROM registry.access.redhat.com/ubi8/ubi-minimal:latest
 
 ENV HELMVERSION="3.3.4"
 
-RUN microdnf install -y curl tar gzip && \
+RUN microdnf install -y curl tar gzip gettext && \
     microdnf clean all
 
 ADD bin/helm/helm-install.sh /usr/local/bin/helm-install.sh
