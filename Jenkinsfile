@@ -21,6 +21,23 @@ pipeline {
                 }
             }
         }
+
+        stage('Test') {
+            steps{
+                script {
+                    dockerImage.inside("--entrypoint='' --user=root") {
+                        sh '''
+                            microdnf install -y git
+                            git clone https://github.com/sstephenson/bats.git
+                            cd bats
+                            ./install.sh /usr/local
+                        '''
+                        sh 'bats ./test/test-entrypoint.bats'
+                    }
+                }
+            }
+        }
+
         stage('Deploy Image') {
             steps {
                 script {
