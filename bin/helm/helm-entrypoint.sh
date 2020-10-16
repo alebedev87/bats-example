@@ -10,6 +10,7 @@ set -euo pipefail
 # EXPAND_CRED_VALUES -> expand environment variables inside VALUES variable
 # REPOSITORY         -> repository URL as passed to --repo option
 # PROVIDE_REPO_CRED  -> use externally provided Helm repository credentials
+# VERSION            -> chart version to be passed as an argument to --version option
 
 # NOTES:
 
@@ -21,6 +22,7 @@ set -euo pipefail
 : ${EXPAND_CRED_VALUES:="false"}
 : ${REPOSITORY:=""}
 : ${PROVIDE_REPO_CRED:=""}
+: ${VERSION:=""}
 
 cat - <<EOF
 -----------------------------------------------------------------
@@ -45,6 +47,10 @@ if [ -n "${REPOSITORY}" ]; then
     if [ "${PROVIDE_REPO_CRED}" = "true" ]; then
         OPTS+=(--username "${DML_USERNAME}" --password "${DML_PASSWORD}")
     fi
+fi
+
+if [ -n "${VERSION}" ]; then
+    OPTS+=(--version "${VERSION}")
 fi
 
 set -x

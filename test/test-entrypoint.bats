@@ -47,6 +47,15 @@ checkFlagsParsing() {
     checkFlagsParsing "${lines[$((${#lines[*]} - 1))]}"
 }
 
+@test "Version provided" {
+    export VALUES="name=myname"
+    export REPOSITORY="https://myrepo"
+    export VERSION="0.0.1"
+    run ${TEST_SCRIPT}
+    grep -q 'exec helm upgrade --install --wait --set name=myname --repo https://myrepo --version 0.0.1 --namespace test-ns test ./chart/test' <<<"${output}"
+    checkFlagsParsing "${lines[$((${#lines[*]} - 1))]}"
+}
+
 @test "Provide repository credentials" {
     export VALUES="name=myname"
     export REPOSITORY="https://myrepo"
