@@ -24,10 +24,15 @@ set -euo pipefail
 : ${PROVIDE_REPO_CRED:=""}
 : ${VERSION:=""}
 
+# variables
+: ${SHOW_CMD:="false"}
+
 cat - <<EOF
 -----------------------------------------------------------------
 | Bootstrapping "${RELEASE}" component through setupjob"
 | Helm chart location "${CHART}"
+| Helm chart repository (if any) "${REPOSITORY}"
+| Helm chart version (if any) "${VERSION}"
 | Target Namespace "${NAMESPACE}"
 -----------------------------------------------------------------
 EOF
@@ -53,5 +58,5 @@ if [ -n "${VERSION}" ]; then
     OPTS+=(--version "${VERSION}")
 fi
 
-set -x
+[ "${SHOW_CMD}" = "true" ] && set -x
 exec helm upgrade ${OPTS[@]} --namespace "${NAMESPACE}" "${RELEASE}" "${CHART}"

@@ -13,3 +13,9 @@ You can see the examples of how to use the Helm base image [here](https://rndwww
 Repository: `dockerhub.rnd.amadeus.net:5000`    
 Image name: `acs_sre/setupjob-base-images`      
 Image version: see the build number on the master branch
+
+## Test
+Install [bats](https://github.com/sstephenson/bats#installing-bats-from-source).
+```bash
+$ bats ./test/test-entrypoint.bats
+```

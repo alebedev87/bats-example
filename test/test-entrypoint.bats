@@ -6,6 +6,7 @@
 export RELEASE="test"
 export CHART="./chart/test"
 export NAMESPACE="test-ns"
+export SHOW_CMD="true"
 
 # checks Helm output for non parsing errors
 checkFlagsParsing() {
