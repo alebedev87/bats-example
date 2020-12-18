@@ -32,7 +32,7 @@ pipeline {
                             cd bats
                             ./install.sh /usr/local
                         '''
-                        sh 'bats ./test/test-entrypoint.bats'
+                        sh 'bats ./test/*.bats'
                     }
                 }
             }
