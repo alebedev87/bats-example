@@ -1,10 +1,13 @@
 FROM registry.access.redhat.com/ubi8/ubi-minimal:latest
 
-ENV HELMVERSION="3.3.4"
+ENV HELMVERSION=3.4.1
+ENV OC_VERSION=4.5.19
 
 RUN microdnf install -y curl tar gzip gettext && \
-    microdnf clean all
+    microdnf clean all && \
+    curl -kL -o - https://mirror.openshift.com/pub/openshift-v4/clients/ocp/${OC_VERSION}/openshift-client-linux.tar.gz | tar -C /usr/local/bin -xzf - oc
 
+COPY ./test /test/
 COPY bin/entrypoint/* bin/helm/* bin/prerequisites/* /usr/local/bin/
 RUN ["bash", "-c", "/usr/local/bin/helm-install.sh"]
 

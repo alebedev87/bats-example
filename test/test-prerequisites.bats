@@ -36,12 +36,13 @@ setup() {
     for F in {0..10}; do
       touch $PREREQUISITE_FOLDER/$F
     done
-    ln -s /bin/echo /bin/oc
+    mv /usr/local/bin/oc /usr/local/bin/oc_old && ln -s /bin/echo /bin/oc
 }
 
 teardown() {
     rm -rf $PREREQUISITE_FOLDER || true
     rm -rf /bin/oc || true
+    mv /usr/local/bin/oc_old /usr/local/bin/oc
 }
 
 @test "Nominal" {
