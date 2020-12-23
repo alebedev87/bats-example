@@ -7,8 +7,7 @@ RUN microdnf install -y curl tar gzip gettext && \
     microdnf clean all && \
     curl -kL -o - https://mirror.openshift.com/pub/openshift-v4/clients/ocp/${OC_VERSION}/openshift-client-linux.tar.gz | tar -C /usr/local/bin -xzf - oc
 
-COPY ./test /test/
-COPY bin/entrypoint/* bin/helm/* bin/prerequisites/* /usr/local/bin/
+COPY bin/entrypoint/* bin/helm/* bin/prerequisites/* bin/postinstall/* /usr/local/bin/
 RUN ["bash", "-c", "/usr/local/bin/helm-install.sh"]
 
 ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]

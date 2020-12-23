@@ -54,4 +54,5 @@ teardown() {
     unset PREREQUISITE_FOLDER
     run ${TEST_SCRIPT}
     [ "$output" = "" ]
+    PREREQUISITE_FOLDER="/test/prerequisites"
 }

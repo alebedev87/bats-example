@@ -9,3 +9,5 @@ echo "Running /usr/local/bin/prerequisites.sh ..."
 /usr/local/bin/prerequisites.sh
 echo "Running /usr/local/bin/helm-entrypoint.sh"
 /usr/local/bin/helm-entrypoint.sh
+echo "Running /usr/local/bin/postinstall.sh ..."
+/usr/local/bin/postinstall.sh
