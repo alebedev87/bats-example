@@ -15,5 +15,3 @@ if [ -n "$PREREQUISITE_FOLDER" ]; then
     done
     popd > /dev/null
 fi
-
-
