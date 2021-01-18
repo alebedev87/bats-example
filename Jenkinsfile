@@ -1,3 +1,5 @@
+@Library('pipeline-toolbox') _
+
 pipeline {
     agent any
 
@@ -8,8 +10,9 @@ pipeline {
 
     environment {
         registryCredentialsId = 'IZ_USER'
-        registryUrl = 'https://dockerhub.rnd.amadeus.net:5000'
-        imagename = "acs_sre/setupjob-base-images"
+        registryUrl = 'https://dockerhub.rnd.amadeus.net:5002'
+        imageName = "acs_sre_images/setupjob-base-images"
+        imageVersion = ''
         dockerImage = ''
     }
 
@@ -17,7 +20,7 @@ pipeline {
         stage('Building image') {
             steps {
                 script {
-                    dockerImage = docker.build(imagename, '-f Dockerfile.helm .')
+                    dockerImage = docker.build(imageName, '-f Dockerfile.helm .')
                 }
             }
         }
@@ -38,11 +41,30 @@ pipeline {
             }
         }
 
+        stage('Tag') {
+            when {
+                expression {!isPullRequest()}
+            }
+            steps {
+                script {
+                    // extract base version (ex: 1.0)
+                    def base_version = sh(returnStdout: true, script: 'cat version').trim()
+                    // compute next version based on repo tags
+                    imageVersion = newBuildVersion(base_version)
+                    // add tag in BitBucket
+                    completeBuild(imageVersion)
+                }
+            }
+        }
+
         stage('Deploy Image') {
+            when {
+                expression {!isPullRequest()}
+            }
             steps {
                 script {
                     docker.withRegistry( registryUrl, registryCredentialsId ) {
-                        dockerImage.push("$BUILD_NUMBER")
+                        dockerImage.push(imageVersion)
                     }
                 }
             }
